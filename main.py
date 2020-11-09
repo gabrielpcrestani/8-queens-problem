@@ -17,11 +17,11 @@ import sys
 sys.stdout = Unbuffered(sys.stdout)
 
 # Parameters
-v_max = 5
-omega = 0.7
-c_1 = 2
+v_max = 10
+omega = 0.9
+c_1 = 2.5
 c_2 = 2
-S = 30
+S = 100
 
 print("8-QUEENS PROBLEM SOLUTION USING PSO")
 

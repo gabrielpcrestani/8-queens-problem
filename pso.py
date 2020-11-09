@@ -14,13 +14,14 @@ def eqpFitness(position):
 
 class Particle:
     def __init__(self, v_max):
-        temp = [0,1,2,3,4,5,6,7]
+        #temp = [0,1,2,3,4,5,6,7]
         self.position = []
         self.velocity = []
         for i in range(8):
-            x = randint(0,len(temp)-1)
-            self.position.append(temp[x])
-            del temp[x]
+            #x = randint(0,len(temp)-1)
+            #self.position.append(temp[x])
+            self.position.append(randint(0,7))
+            #del temp[x]
             self.velocity.append(randint(-v_max, v_max))
         self.p = self.position.copy()
 
@@ -39,7 +40,7 @@ class PSO:
         for i in range(S):
             if (eqpFitness(self.swarm[i].position) < eqpFitness(self.best_global)):
                 self.best_global = self.swarm[i].position.copy()
-        self.max_generations = 1000
+        self.max_generations = 500
 
     def search(self):
         print("\nBEGINNING SEARCH...")
