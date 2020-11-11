@@ -2,12 +2,13 @@ from random import randint, random
 
 def eqpFitness(position):
     if position == None:
-        return 29
+        return 999
     fitness = 0
     for j1 in range(len(position)):
         for j2 in range(j1+1, len(position)):
-            if (position[j1] == position[j2] or j1 == j2 or 
-            position[j1] + j1 == position[j2] + j2 or
+            if (position[j1] == position[j2]):
+                fitness += 1
+            elif (position[j1] + j1 == position[j2] + j2 or
             position[j1] - j1 == position[j2] - j2):
                 fitness += 1
     return fitness
@@ -40,7 +41,7 @@ class PSO:
         for i in range(S):
             if (eqpFitness(self.swarm[i].position) < eqpFitness(self.best_global)):
                 self.best_global = self.swarm[i].position.copy()
-        self.max_generations = 500
+        self.max_generations = 300
 
     def search(self):
         print("\nBEGINNING SEARCH...")
@@ -51,6 +52,18 @@ class PSO:
                 phi_1 = random()
                 phi_2 = random()
                 
+                # evaluate fitness
+                particle_fitness_temp = eqpFitness(self.swarm[i].position)
+                # update p
+                if (particle_fitness_temp <= eqpFitness(self.swarm[i].p)):
+                    self.swarm[i].p = self.swarm[i].position.copy()
+                # update best_iteration
+                if (particle_fitness_temp <= eqpFitness(self.best_generation)):
+                    self.best_iteration = self.swarm[i].position.copy()
+                # update best_global
+                if (particle_fitness_temp <= eqpFitness(self.best_global)):
+                    self.best_global = self.swarm[i].position.copy()
+
                 # adapt velocity
                 #print(self.swarm[i].velocity)
                 temp_1 = [self.omega*x for x in self.swarm[i].velocity] 
@@ -75,27 +88,23 @@ class PSO:
                         self.swarm[i].position[j] = 7
                 #print(self.swarm[i].position)
 
-                # evaluate fitness
-                particle_fitness_temp = eqpFitness(self.swarm[i].position)
-                # update p
-                if (particle_fitness_temp < eqpFitness(self.swarm[i].p)):
-                    self.swarm[i].p = self.swarm[i].position.copy()
-                # update best_iteration
-                if (particle_fitness_temp < eqpFitness(self.best_generation)):
-                    self.best_iteration = self.swarm[i].position.copy()
+                
                 
                 # break the search
                 if (eqpFitness(self.best_global) == 0):
                     print("\nSOLUTION FOUND:")
                     print("Solution / Fitness: " + str(self.best_global) + " / " + str(eqpFitness(self.best_global)))
-                    return 
+                    return 0
+
+                
             
-            # update best_global
-                if (eqpFitness(self.best_generation) < eqpFitness(self.best_global)):
-                    self.best_global = self.best_generation.copy()
+            #for elem in self.swarm:
+            #        print(elem.position)
+
+            
             print("Best iteration: " + str(self.best_iteration))
             print("Best iteration fitness: " + str(eqpFitness(self.best_iteration)))
             print("Best global: " + str(self.best_global))
             print("Best global fitness: " + str(eqpFitness(self.best_global)))
-            
+        return str(eqpFitness(self.best_global))
 

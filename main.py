@@ -17,14 +17,18 @@ import sys
 sys.stdout = Unbuffered(sys.stdout)
 
 # Parameters
-v_max = 10
-omega = 0.9
-c_1 = 2.5
-c_2 = 2
-S = 100
+v_max = 7
+omega = 0.729
+c_1 = 1.494
+c_2 = 1.494
+S = 50
 
 print("8-QUEENS PROBLEM SOLUTION USING PSO")
 
 pso = PSO(v_max, omega, c_1, c_2, S)
-print("alou")
-pso.search()
+fitness = pso.search()
+
+while (fitness != 0):
+    print("\nPRESO EM MINIMO LOCAL. REINICIANDO ALGORITMO...")
+    pso = PSO(v_max, omega, c_1, c_2, S)
+    fitness = pso.search()
